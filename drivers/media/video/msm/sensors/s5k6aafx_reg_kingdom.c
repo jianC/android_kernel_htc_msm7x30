@@ -1490,9 +1490,9 @@ static const struct s5k6aafx_i2c_reg_conf const register_init_tbl[] = {
 	/* parawrite _end - TVAR_ash_pGAS */
 
 	{S5K6AAFX_REG_W_ADDL, 0x0C48},
-	{S5K6AAFX_REG_WR, 0x0520}, /* R*/ //{S5K6AAFX_REG_WR, 0x0550}
-	{S5K6AAFX_REG_WR, 0x0400}, /* G*/ //{S5K6AAFX_REG_WR, 0x0400}
-	{S5K6AAFX_REG_WR, 0x0660}, /*B */ //{S5K6AAFX_REG_WR, 0x0600}
+	{S5K6AAFX_REG_WR, 0x0520}, /* R*/
+	{S5K6AAFX_REG_WR, 0x0400}, /* G*/
+	{S5K6AAFX_REG_WR, 0x0660}, /*B */
 
 #if 0
 	{S5K6AAFX_REG_W_ADDL, 0x0F12},
@@ -1526,69 +1526,69 @@ static const struct s5k6aafx_i2c_reg_conf const register_init_tbl[] = {
 	/* param_start - awbb_IndoorGrZones_m_BGrid */
 	{S5K6AAFX_REG_W_ADDL, 0x0C50},
 	{S5K6AAFX_REG_WR, 0x03BA},
-	{S5K6AAFX_REG_WR, 0x03E3},
-	{S5K6AAFX_REG_WR, 0x039A},
-	{S5K6AAFX_REG_WR, 0x03DB},
-	{S5K6AAFX_REG_WR, 0x037B},
-	{S5K6AAFX_REG_WR, 0x03CD},
-	{S5K6AAFX_REG_WR, 0x035D},
+	{S5K6AAFX_REG_WR, 0x03E2},
+	{S5K6AAFX_REG_WR, 0x039C},
+	{S5K6AAFX_REG_WR, 0x03DA},
+	{S5K6AAFX_REG_WR, 0x037E},
+	{S5K6AAFX_REG_WR, 0x03CC},
+	{S5K6AAFX_REG_WR, 0x0360},
 	{S5K6AAFX_REG_WR, 0x03B2},
 	{S5K6AAFX_REG_WR, 0x0342},
-	{S5K6AAFX_REG_WR, 0x0397},
-	{S5K6AAFX_REG_WR, 0x0325},
-	{S5K6AAFX_REG_WR, 0x0380},
-	{S5K6AAFX_REG_WR, 0x030E},
-	{S5K6AAFX_REG_WR, 0x0369},
-	{S5K6AAFX_REG_WR, 0x02F8},
-	{S5K6AAFX_REG_WR, 0x034B},
-	{S5K6AAFX_REG_WR, 0x02DE},
-	{S5K6AAFX_REG_WR, 0x0336},
-	{S5K6AAFX_REG_WR, 0x02BF},
-	{S5K6AAFX_REG_WR, 0x031F},
-	{S5K6AAFX_REG_WR, 0x02A6},
+	{S5K6AAFX_REG_WR, 0x039A},
+	{S5K6AAFX_REG_WR, 0x0324},
+	{S5K6AAFX_REG_WR, 0x0382},
+	{S5K6AAFX_REG_WR, 0x030A},
+	{S5K6AAFX_REG_WR, 0x0368},
+	{S5K6AAFX_REG_WR, 0x02F0},
+	{S5K6AAFX_REG_WR, 0x0350},
+	{S5K6AAFX_REG_WR, 0x02D8},
+	{S5K6AAFX_REG_WR, 0x0338},
+	{S5K6AAFX_REG_WR, 0x02BE},
+	{S5K6AAFX_REG_WR, 0x0320},
+	{S5K6AAFX_REG_WR, 0x02A4},
 	{S5K6AAFX_REG_WR, 0x0306},
-	{S5K6AAFX_REG_WR, 0x028D},
-	{S5K6AAFX_REG_WR, 0x02F4},
-	{S5K6AAFX_REG_WR, 0x027D},
-	{S5K6AAFX_REG_WR, 0x02DD},
+	{S5K6AAFX_REG_WR, 0x028C},
+	{S5K6AAFX_REG_WR, 0x02EE},
+	{S5K6AAFX_REG_WR, 0x027C},
+	{S5K6AAFX_REG_WR, 0x02DA},
 	{S5K6AAFX_REG_WR, 0x026C},
-	{S5K6AAFX_REG_WR, 0x02C2},
+	{S5K6AAFX_REG_WR, 0x02C6},
 	{S5K6AAFX_REG_WR, 0x025C},
-	{S5K6AAFX_REG_WR, 0x02AE},
-	{S5K6AAFX_REG_WR, 0x024F},
-	{S5K6AAFX_REG_WR, 0x029D},
-	{S5K6AAFX_REG_WR, 0x0245},
-	{S5K6AAFX_REG_WR, 0x028B},
-	{S5K6AAFX_REG_WR, 0x023E},
-	{S5K6AAFX_REG_WR, 0x027F},
-	{S5K6AAFX_REG_WR, 0x0235},
-	{S5K6AAFX_REG_WR, 0x0272},
-	{S5K6AAFX_REG_WR, 0x022B},
-	{S5K6AAFX_REG_WR, 0x0267},
-	{S5K6AAFX_REG_WR, 0x0220},
-	{S5K6AAFX_REG_WR, 0x025B},
-	{S5K6AAFX_REG_WR, 0x0218},
+	{S5K6AAFX_REG_WR, 0x02B2},
+	{S5K6AAFX_REG_WR, 0x0252},
+	{S5K6AAFX_REG_WR, 0x029E},
 	{S5K6AAFX_REG_WR, 0x0250},
-	{S5K6AAFX_REG_WR, 0x020E},
+	{S5K6AAFX_REG_WR, 0x0296},
+	{S5K6AAFX_REG_WR, 0x024C},
+	{S5K6AAFX_REG_WR, 0x0290},
+	{S5K6AAFX_REG_WR, 0x024A},
+	{S5K6AAFX_REG_WR, 0x0284},
+	{S5K6AAFX_REG_WR, 0x024C},
+	{S5K6AAFX_REG_WR, 0x027C},
+	{S5K6AAFX_REG_WR, 0x024E},
+	{S5K6AAFX_REG_WR, 0x0276},
 	{S5K6AAFX_REG_WR, 0x0246},
-	{S5K6AAFX_REG_WR, 0x0206},
-	{S5K6AAFX_REG_WR, 0x023D},
-	{S5K6AAFX_REG_WR, 0x01FB},
-	{S5K6AAFX_REG_WR, 0x0234},
-	{S5K6AAFX_REG_WR, 0x01F1},
-	{S5K6AAFX_REG_WR, 0x0229},
-	{S5K6AAFX_REG_WR, 0x01E7},
-	{S5K6AAFX_REG_WR, 0x0220},
-	{S5K6AAFX_REG_WR, 0x01DF},
-	{S5K6AAFX_REG_WR, 0x0216},
-	{S5K6AAFX_REG_WR, 0x01D2},
-	{S5K6AAFX_REG_WR, 0x020D},
-	{S5K6AAFX_REG_WR, 0x01C7},
-	{S5K6AAFX_REG_WR, 0x01FD},
-	{S5K6AAFX_REG_WR, 0x01C4},
+	{S5K6AAFX_REG_WR, 0x0270},
+	{S5K6AAFX_REG_WR, 0x023E},
+	{S5K6AAFX_REG_WR, 0x0268},
+	{S5K6AAFX_REG_WR, 0x022E},
+	{S5K6AAFX_REG_WR, 0x025E},
+	{S5K6AAFX_REG_WR, 0x021C},
+	{S5K6AAFX_REG_WR, 0x0254},
+	{S5K6AAFX_REG_WR, 0x020A},
+	{S5K6AAFX_REG_WR, 0x0248},
+	{S5K6AAFX_REG_WR, 0x01FA},
+	{S5K6AAFX_REG_WR, 0x023E},
 	{S5K6AAFX_REG_WR, 0x01EE},
-	{S5K6AAFX_REG_WR, 0x01D1},
-	{S5K6AAFX_REG_WR, 0x01E1},
+	{S5K6AAFX_REG_WR, 0x0234},
+	{S5K6AAFX_REG_WR, 0x01E4},
+	{S5K6AAFX_REG_WR, 0x0226},
+	{S5K6AAFX_REG_WR, 0x01DA},
+	{S5K6AAFX_REG_WR, 0x021A},
+	{S5K6AAFX_REG_WR, 0x01D8},
+	{S5K6AAFX_REG_WR, 0x020C},
+	{S5K6AAFX_REG_WR, 0x01DE},
+	{S5K6AAFX_REG_WR, 0x01F4},
 	{S5K6AAFX_REG_WR, 0x0000},
 	{S5K6AAFX_REG_WR, 0x0000},
 	{S5K6AAFX_REG_WR, 0x0000},
@@ -1816,7 +1816,7 @@ static const struct s5k6aafx_i2c_reg_conf const register_init_tbl[] = {
 	{S5K6AAFX_REG_WR, 0x016F},
 	/* param_end - TVAR_wbt_pBaseCcms */
 
-	/* param_start - TVAR_wbt_pOutdoorCcm */
+	/* param_start - TVAR_wbt_pOutdoorCcm */  
 	{S5K6AAFX_REG_W_ADDL, 0x2380},
 	{S5K6AAFX_REG_WR, 0x01F2/*0x01F2*//*0x019D*/}, /* TVAR_wbt_pOutdoorCcm[0] */
 	{S5K6AAFX_REG_WR, 0xFFC3/*0xFFc3*//*0xFFC8*/}, /* TVAR_wbt_pOutdoorCcm[1] */
@@ -2448,7 +2448,7 @@ static const struct s5k6aafx_i2c_reg_conf const prev_snap_conf_init_tbl[] = {
 	{S5K6AAFX_REG_W_ADDL, 0x0320},
 	{S5K6AAFX_REG_WR, 0x0535},
 	{S5K6AAFX_REG_WR, 0x0000},
-
+#if 1
 	/* CAPTURE CONFIGURATION 1 (1280X720, YUV) */
 	{S5K6AAFX_REG_W_ADDL, 0x0330},
 	{S5K6AAFX_REG_WR, S5K6AAFX_720P_SIZE_WIDTH}, /* 1280 */
@@ -2471,6 +2471,7 @@ static const struct s5k6aafx_i2c_reg_conf const prev_snap_conf_init_tbl[] = {
 	/* REG_TC_GP_ActiveCapConfig-Select snapshot configuration_0 */
 	{S5K6AAFX_REG_W_ADDL, 0x0224},
 	{S5K6AAFX_REG_WR, 0x0000},
+#endif
 	/* REG_TC_GP_CapConfigChanged */
 	{S5K6AAFX_REG_W_ADDL, 0x0226},
 	{S5K6AAFX_REG_WR, 0x0001}, /* Enable output after config change */
@@ -2484,6 +2485,7 @@ static const struct s5k6aafx_i2c_reg_conf const prev_snap_conf_init_tbl[] = {
 	{S5K6AAFX_REG_WR, (S5K6AAFX_FULL_SIZE_WIDTH-S5K6AAFX_ADJ_FULL_SIZE_WIDTH)/2},
 	/* REG_TC_GP_PrevInputHeightOfs */
 	{S5K6AAFX_REG_WR, (S5K6AAFX_FULL_SIZE_HEIGHT-S5K6AAFX_ADJ_FULL_SIZE_HEIGHT)/2},
+#if 1
 	/* REG_TC_GP_CapReqInputWidth */
 	{S5K6AAFX_REG_WR, S5K6AAFX_FULL_SIZE_WIDTH},
 	/* REG_TC_GP_CapReqInputHeight */
@@ -2492,6 +2494,9 @@ static const struct s5k6aafx_i2c_reg_conf const prev_snap_conf_init_tbl[] = {
 	{S5K6AAFX_REG_WR, 0x0000},
 	/* REG_TC_GP_CapInputHeightOfs */
 	{S5K6AAFX_REG_WR, 0x0000},
+#else
+	{S5K6AAFX_REG_W_ADDL, 0x020A},
+#endif
 	/* REG_TC_GP_PrevZoomReqInputWidth */
 	{S5K6AAFX_REG_WR, S5K6AAFX_ADJ_FULL_SIZE_WIDTH},
 	/* REG_TC_GP_PrevZoomReqInputHeight */
@@ -2499,6 +2504,7 @@ static const struct s5k6aafx_i2c_reg_conf const prev_snap_conf_init_tbl[] = {
 	/* REG_TC_GP_PrevZoomReqInputWidthOfs */
 	{S5K6AAFX_REG_WR, 0x0000},
 	/* REG_TC_GP_PrevZoomReqInputHeightOfs */
+#if 1
 	{S5K6AAFX_REG_WR, 0x0000},
 	/* REG_TC_GP_CapZoomReqInputWidth */
 	{S5K6AAFX_REG_WR, S5K6AAFX_FULL_SIZE_WIDTH},
@@ -2507,6 +2513,7 @@ static const struct s5k6aafx_i2c_reg_conf const prev_snap_conf_init_tbl[] = {
 	/* REG_TC_GP_CapZoomReqInputWidthOfs */
 	{S5K6AAFX_REG_WR, 0x0000},
 	/* REG_TC_GP_CapZoomReqInputHeightOfs */
+#endif
 	{S5K6AAFX_REG_WR, 0x0000},
 
 	/* REG_TC_GEP_InputsChangeRequest */
@@ -2557,8 +2564,8 @@ static const struct s5k6aafx_i2c_reg_conf const prev_snap_conf_init_tb2[] = {
 	{S5K6AAFX_REG_WR, 0x0535},
 	{S5K6AAFX_REG_WR, 0x029A},
 	{S5K6AAFX_REG_W_ADDL, 0x0288}, /* flip and mirror */
-	{S5K6AAFX_REG_WR, 0x0001}, /* 0x0288 value */
-	{S5K6AAFX_REG_WR, 0x0001}, /* 0x0288 value */
+	{S5K6AAFX_REG_WR, 0x0003}, /* 0x0288 value */
+	{S5K6AAFX_REG_WR, 0x0003}, /* 0x0288 value */
 
 	/*********** APPLY PREVIEW CONFIGURATION & RUN PREVIEW ***********/
 	/* REG_TC_GP_ActivePrevConfig-Select preview configuration_3 */

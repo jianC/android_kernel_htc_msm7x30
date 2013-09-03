@@ -755,9 +755,9 @@ static struct mt9v113_i2c_reg_conf register_init_tb2[] = {
 	{0x0990, 0x0001, WORD_LEN, 0},
 	{0x098C, 0x2717, WORD_LEN, 0},
 #ifdef CONFIG_MSM_CAMERA_8X60
-	{0x0990, 0x0024, WORD_LEN, 0},/* 0x0027: mirror/flip , 0x0024: none*/
+	{0x0990, 0x0025, WORD_LEN, 0},/* 0x0025: mirror */
 #else
-	{0x0990, 0x0025, WORD_LEN, 0},/* 0x0027: mirror/flip , 0x0024: none*/
+	{0x0990, 0x0026, WORD_LEN, 0},/* 0x0026: flip */
 #endif
 	{0x098C, 0x2719, WORD_LEN, 0},
 	{0x0990, 0x001A, WORD_LEN, 0},
@@ -793,9 +793,9 @@ static struct mt9v113_i2c_reg_conf register_init_tb2[] = {
 	{0x0990, 0x0001, WORD_LEN, 0},
 	{0x098C, 0x272D, WORD_LEN, 0},
 #ifdef CONFIG_MSM_CAMERA_8X60
-	{0x0990, 0x0024, WORD_LEN, 0},/* 0x0027: mirror/flip , 0x0024: none*/
+	{0x0990, 0x0025, WORD_LEN, 0},/* 0x0025: mirror */
 #else
-	{0x0990, 0x0027, WORD_LEN, 0},/* 0x0027: mirror/flip , 0x0024: none*/
+	{0x0990, 0x0026, WORD_LEN, 0},/* 0x0026: flip */
 #endif
 	{0x098C, 0x272F, WORD_LEN, 0},
 	{0x0990, 0x001A, WORD_LEN, 0},

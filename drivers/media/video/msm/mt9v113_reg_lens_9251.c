@@ -160,15 +160,9 @@ static struct mt9v113_i2c_reg_conf contract_setup_tb0[] = {
 	{0x098C, 0xAB45, WORD_LEN, 0},
 	{0x0990, 0x00D9, WORD_LEN, 0},
 	{0x098C, 0xAB46, WORD_LEN, 0},
-#ifdef CONFIG_MSM_CAMERA_8X60
-	{0x0990, 0x0000, WORD_LEN, 0},
-	{0x098C, 0xAB47, WORD_LEN, 0},
-	{0x0990, 0x0000, WORD_LEN, 0},
-#else
 	{0x0990, 0x00E1, WORD_LEN, 0},/*{0x0990, 0x0000, WORD_LEN, 0},*/
 	{0x098C, 0xAB47, WORD_LEN, 0},
 	{0x0990, 0x00E8, WORD_LEN, 0},/*{0x0990, 0x0000, WORD_LEN, 0},*/
-#endif
 	{0x098C, 0xAB48, WORD_LEN, 0},
 	{0x0990, 0x00EE, WORD_LEN, 0},
 	{0x098C, 0xAB49, WORD_LEN, 0},
@@ -208,15 +202,9 @@ static struct mt9v113_i2c_reg_conf contract_setup_tb1[] = {
 	{0x098C, 0xAB45, WORD_LEN, 0},
 	{0x0990, 0x00D9, WORD_LEN, 0},
 	{0x098C, 0xAB46, WORD_LEN, 0},
-#ifdef CONFIG_MSM_CAMERA_8X60
-	{0x0990, 0x0000, WORD_LEN, 0},
-	{0x098C, 0xAB47, WORD_LEN, 0},
-	{0x0990, 0x0000, WORD_LEN, 0},
-#else
 	{0x0990, 0x00E1, WORD_LEN, 0},/*{0x0990, 0x0000, WORD_LEN, 0},*/
 	{0x098C, 0xAB47, WORD_LEN, 0},
 	{0x0990, 0x00E8, WORD_LEN, 0},/*{0x0990, 0x0000, WORD_LEN, 0},*/
-#endif
 	{0x098C, 0xAB48, WORD_LEN, 0},
 	{0x0990, 0x00EE, WORD_LEN, 0},
 	{0x098C, 0xAB49, WORD_LEN, 0},
@@ -304,11 +292,7 @@ static struct mt9v113_i2c_reg_conf contract_setup_tb3[] = {
 	{0x098C, 0xAB48, WORD_LEN, 0},
 	{0x0990, 0x00DB, WORD_LEN, 0},
 	{0x098C, 0xAB49, WORD_LEN, 0},
-#ifdef CONFIG_MSM_CAMERA_8X60
-	{0x0990, 0x0000, WORD_LEN, 0},
-#else
 	{0x0990, 0x00E3, WORD_LEN, 0},/*{0x0990, 0x0000, WORD_LEN, 0},*/
-#endif
 	{0x098C, 0xAB4A, WORD_LEN, 0},
 	{0x0990, 0x00EA, WORD_LEN, 0},
 	{0x098C, 0xAB4B, WORD_LEN, 0},
@@ -350,11 +334,7 @@ static struct mt9v113_i2c_reg_conf contract_setup_tb4[] = {
 	{0x098C, 0xAB48, WORD_LEN, 0},
 	{0x0990, 0x00E2, WORD_LEN, 0},
 	{0x098C, 0xAB49, WORD_LEN, 0},
-#ifdef CONFIG_MSM_CAMERA_8X60
-	{0x0990, 0x0000, WORD_LEN, 0},
-#else
 	{0x0990, 0x00E9, WORD_LEN, 0},/*{0x0990, 0x0000, WORD_LEN, 0},*/
-#endif
 	{0x098C, 0xAB4A, WORD_LEN, 0},
 	{0x0990, 0x00EE, WORD_LEN, 0},
 	{0x098C, 0xAB4B, WORD_LEN, 0},
@@ -373,11 +353,11 @@ static struct mt9v113_i2c_reg_conf power_up_tbl[] = {
 	{0x001A, 0x0011, WORD_LEN, 10},
 	{0x001A, 0x0010, WORD_LEN, 10},
 #else
-	{0x001A, 0x0011, WORD_LEN, 1},
-	{0x001A, 0x0000, WORD_LEN, 1},
+	{0x001A, 0x0011, WORD_LEN, 10},
+	{0x001A, 0x0010, WORD_LEN, 10},
 #endif
-	{0x301A, 0x1218, WORD_LEN, 10},
-	{0x301A, 0x121C, WORD_LEN, 10},
+//	{0x301A, 0x1218, WORD_LEN, 10},
+//	{0x301A, 0x121C, WORD_LEN, 10}, //David 20110801
 };
 
 /* sensor register init */
@@ -640,11 +620,11 @@ static struct mt9v113_i2c_reg_conf register_init_tb2[] = {
 	{0x098C, 0xA303, WORD_LEN, 0},
 	{0x0990, 0x00EF, WORD_LEN, 0},
 	{0x098C, 0xA366, WORD_LEN, 0},
-	{0x0990, 0x00C0, WORD_LEN, 0},
+	{0x0990, 0x00A0, WORD_LEN, 0},/* c0 Kevin modify for reducing A light yellowish 0427 */
 	{0x098C, 0xA367, WORD_LEN, 0},
-	{0x0990, 0x0073, WORD_LEN, 0},
+	{0x0990, 0x0096, WORD_LEN, 0},/* 73 Kevin modify for reducing A light yellowish 0413 */
 	{0x098C, 0xA368, WORD_LEN, 0},
-	{0x0990, 0x0038, WORD_LEN, 0},
+	{0x0990, 0x0080, WORD_LEN, 0},/* 38 Kevin modify for reducing A light yellowish 0427 */
 	/* Gamma Morph brightness setting */
 #ifndef CONFIG_MSM_CAMERA_8X60
 	{0x098C, 0x2B1B, WORD_LEN, 0},
@@ -754,10 +734,10 @@ static struct mt9v113_i2c_reg_conf register_init_tb2[] = {
 	{0x098C, 0x2715, WORD_LEN, 0},
 	{0x0990, 0x0001, WORD_LEN, 0},
 	{0x098C, 0x2717, WORD_LEN, 0},
-#ifdef CONFIG_MSM_CAMERA_8X60
-	{0x0990, 0x0024, WORD_LEN, 0},/* 0x0027: mirror/flip , 0x0024: none*/
+#if defined(CONFIG_MSM_CAMERA_8X60) || defined(CONFIG_MSM_CAMERA_V4L2)
+	{0x0990, 0x0025, WORD_LEN, 0},/* 0x0025: mirror*/
 #else
-	{0x0990, 0x0025, WORD_LEN, 0},/* 0x0027: mirror/flip , 0x0024: none*/
+	{0x0990, 0x0026, WORD_LEN, 0},/* 0x0026: flip */
 #endif
 	{0x098C, 0x2719, WORD_LEN, 0},
 	{0x0990, 0x001A, WORD_LEN, 0},
@@ -792,10 +772,10 @@ static struct mt9v113_i2c_reg_conf register_init_tb2[] = {
 	{0x098C, 0x272B, WORD_LEN, 0},
 	{0x0990, 0x0001, WORD_LEN, 0},
 	{0x098C, 0x272D, WORD_LEN, 0},
-#ifdef CONFIG_MSM_CAMERA_8X60
-	{0x0990, 0x0024, WORD_LEN, 0},/* 0x0027: mirror/flip , 0x0024: none*/
+#if defined(CONFIG_MSM_CAMERA_8X60) || defined(CONFIG_MSM_CAMERA_V4L2)
+	{0x0990, 0x0025, WORD_LEN, 0},/* 0x0025: mirror*/
 #else
-	{0x0990, 0x0027, WORD_LEN, 0},/* 0x0027: mirror/flip , 0x0024: none*/
+	{0x0990, 0x0026, WORD_LEN, 0},/* 0x0026: flip */
 #endif
 	{0x098C, 0x272F, WORD_LEN, 0},
 	{0x0990, 0x001A, WORD_LEN, 0},

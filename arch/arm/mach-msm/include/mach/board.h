@@ -87,6 +87,12 @@ struct msm_camera_io_ext {
 	uint32_t csiphy;
 	uint32_t csisz;
 	uint32_t csiirq;
+	uint32_t csiphyphy;
+	uint32_t csiphysz;
+	uint32_t csiphyirq;
+	uint32_t ispifphy;
+	uint32_t ispifsz;
+	uint32_t ispifirq;
 };
 
 struct msm_camera_io_clk {
@@ -94,11 +100,18 @@ struct msm_camera_io_clk {
 	uint32_t vfe_clk_rate;
 };
 
+struct msm_cam_expander_info {
+	struct i2c_board_info const *board_info;
+	int bus_id;
+};
+
 struct msm_camera_device_platform_data {
 	void (*camera_gpio_on) (void);
 	void (*camera_gpio_off)(void);
 	struct msm_camera_io_ext ioext;
 	struct msm_camera_io_clk ioclk;
+	uint8_t csid_core;
+	struct msm_bus_scale_pdata *cam_bus_scale_table;
 };
 enum msm_camera_csi_data_format {
 	CSI_8BIT,
@@ -111,8 +124,11 @@ struct msm_camera_csi_params {
 	uint8_t lane_assign;
 	uint8_t settle_cnt;
 	uint8_t dpcm_scheme;
+	uint8_t mipi_driving_strength;/*from 0-3*/
+	uint8_t hs_impedence;
 };
 
+#ifdef CONFIG_SENSORS_MT9T013
 struct msm_camera_legacy_device_platform_data {
 	int sensor_reset;
 	int sensor_pwd;
@@ -121,12 +137,16 @@ struct msm_camera_legacy_device_platform_data {
 	void (*config_gpio_off)(void);
 	struct msm_camsensor_device_platform_data *sensor_info;
 };
+#endif
 
 #define MSM_CAMERA_FLASH_NONE 0
 #define MSM_CAMERA_FLASH_LED  1
+
 #define MSM_CAMERA_FLASH_SRC_PMIC (0x00000001<<0)
 #define MSM_CAMERA_FLASH_SRC_PWM  (0x00000001<<1)
 #define MSM_CAMERA_FLASH_SRC_CURRENT_DRIVER	(0x00000001<<2)
+#define MSM_CAMERA_FLASH_SRC_EXT     (0x00000001<<3)
+
 
 struct msm_camera_sensor_flash_pmic {
 	uint8_t num_of_src;
@@ -152,20 +172,24 @@ struct msm_camera_sensor_flash_current_driver {
 	const struct pmic8058_leds_platform_data *driver_channel;
 };
 
+struct msm_camera_sensor_flash_external {
+	uint32_t led_en;
+	uint32_t led_flash_en;
+	struct msm_cam_expander_info *expander_info;
+};
+
 struct msm_camera_sensor_flash_src {
 	int flash_sr_type;
 	int (*camera_flash)(int level);
+
 	union {
 		struct msm_camera_sensor_flash_pmic pmic_src;
 		struct msm_camera_sensor_flash_pwm pwm_src;
 		struct msm_camera_sensor_flash_current_driver
 			current_driver_src;
+		struct msm_camera_sensor_flash_external
+			ext_driver_src;
 	} _fsrc;
-};
-
-enum msm_camera_source{
-	MAIN_SOURCE,
-	SECOND_SOURCE,
 };
 
 struct msm_camera_sensor_flash_data {
@@ -173,36 +197,152 @@ struct msm_camera_sensor_flash_data {
 	struct msm_camera_sensor_flash_src *flash_src;
 };
 
+/* HTC_START linear led 20111011 */
+struct camera_led_info {
+	uint16_t enable;
+	uint16_t low_limit_led_state;
+	uint16_t max_led_current_ma;
+	uint16_t num_led_est_table;
+};
+
+struct camera_led_est {
+	uint16_t enable;
+	uint16_t led_state;
+	uint16_t current_ma;
+	uint16_t lumen_value;
+	uint16_t min_step;
+	uint16_t max_step;
+};
+
+struct camera_flash_info {
+	struct camera_led_info *led_info;
+	struct camera_led_est *led_est_table;
+};
+/* HTC_END */
+
 struct camera_flash_cfg {
 	int num_flash_levels;
 	int (*camera_flash)(int level);
 	uint16_t low_temp_limit;
 	uint16_t low_cap_limit;
 	uint8_t postpone_led_mode;
+	struct camera_flash_info *flash_info;	/* HTC linear led 20111011 */
 };
 
 struct msm_camera_sensor_strobe_flash_data {
-	int flash_charge; /* pin for charge */
+	uint8_t flash_trigger;
+	uint8_t flash_charge; /* pin for charge */
+	uint8_t flash_charge_done;
 	uint32_t flash_recharge_duration;
 	uint32_t irq;
 	spinlock_t spin_lock;
 	spinlock_t timer_lock;
 	int state;
-	int flash_trigger;
-	int flash_charge_done;
 };
 
-struct msm_camera_sensor_info {
-	const char *sensor_name;
+struct msm_camera_rawchip_info {
+	int rawchip_reset;
+	int rawchip_intr0;
+	int rawchip_intr1;
+	uint8_t rawchip_spi_freq;
+	uint8_t rawchip_mclk_freq;
+	int (*camera_rawchip_power_on)(void);
+	int (*camera_rawchip_power_off)(void);
+	int (*rawchip_gpio_on)(void);
+	void (*rawchip_gpio_off)(void);
+	int (*rawchip_use_ext_1v2)(void);
+};
+
+enum msm_camera_type {
+	BACK_CAMERA_2D,
+	FRONT_CAMERA_2D,
+	BACK_CAMERA_3D,
+	BACK_CAMERA_INT_3D,
+};
+
+struct msm8960_privacy_light_cfg {
+	unsigned mpp;
+};
+
+enum sensor_flip_mirror_info {
+	CAMERA_SENSOR_NONE,
+	CAMERA_SENSOR_MIRROR,
+	CAMERA_SENSOR_FLIP,
+	CAMERA_SENSOR_MIRROR_FLIP,
+};
+
+struct msm_camera_sensor_platform_info {
+	int mount_angle;
+	int sensor_reset_enable;
 	int sensor_reset;
 	int sensor_pwd;
 	int vcm_pwd;
 	int vcm_enable;
-	int sp3d_gate;
-	int sp3d_sys_reset;
-	int sp3d_core_gate;
-	int sp3d_pdx;
+	int privacy_light;
+	enum sensor_flip_mirror_info mirror_flip;
+	void *privacy_light_info;
+};
+
+struct msm_camera_gpio_conf {
+	void *cam_gpiomux_conf_tbl;
+	uint8_t cam_gpiomux_conf_tbl_size;
+	uint16_t *cam_gpio_tbl;
+	uint8_t cam_gpio_tbl_size;
+};
+
+struct msm_actuator_info {
+	struct i2c_board_info const *board_info;
+	int bus_id;
+	int vcm_pwd;
+	int vcm_enable;
+};
+
+enum msm_camera_platform{
+	MSM_CAMERA_PLTFORM_8X60	= 0,
+	MSM_CAMERA_PLTFORM_7X30	= 1,
+	MSM_CAMERA_PLTFORM_MAX	= 2,
+};
+
+struct msm_camera_sensor_info {
+	const char *sensor_name;
+	int sensor_reset_enable;
+	int sensor_reset;
+	int sensor_pwd;
+	int vcm_pwd;
+	int vcm_enable;
+#ifdef CONFIG_CAMERA_3D
+	uint8_t stereo_low_cap_limit;
+#endif
+	int mclk;
+	int flash_type;
+	int need_suspend;
+	struct msm_camera_sensor_platform_info *sensor_platform_info;
+	struct msm_camera_device_platform_data *pdata;
+	struct resource *resource;
+	uint8_t num_resources;
+	struct msm_camera_sensor_flash_data *flash_data;
+	int csi_if;
+	struct msm_camera_csi_params csi_params;
+	struct msm_camera_sensor_strobe_flash_data *strobe_flash_data;
+	char *eeprom_data;
+	struct msm_camera_gpio_conf *gpio_conf;
+	enum msm_camera_type camera_type;
+	struct msm_actuator_info *actuator_info;
+	int (*camera_power_on)(void);
+	int (*camera_power_off)(void);
+	int use_rawchip;
+	int (*sensor_version)(void);
+	int (*camera_main_get_probe)(void);
+	void (*camera_main_set_probe)(int);
+#if 1 /* HTC to be removed */
+	/* HTC++ */
 	void(*camera_clk_switch)(void);
+	int power_down_disable; /* if close power */
+	int full_size_preview; /* if use full-size preview */
+	int cam_select_pin; /* for two sensors */
+	int mirror_mode; /* for sensor upside down */
+	int zero_shutter_mode; /* for doing zero shutter lag on MIPI */
+	int sensor_lc_disable; /* for sensor lens correction support */
 	int(*camera_pm8058_power)(int); /* for express */
 	/*power*/
 	char *camera_analog_pwd;
@@ -210,38 +350,18 @@ struct msm_camera_sensor_info {
 	char *camera_vcm_pwd;
 	char *camera_digital_pwd;
 	int analog_pwd1_gpio;
-	int (*camera_power_on)(void);
-	int (*camera_power_off)(void);
-	void(*camera_set_source)(enum msm_camera_source);
-	enum msm_camera_source(*camera_get_source)(void);
-	int (*camera_main_get_probe)(void);
-	void (*camera_main_set_probe)(int);
-	int mclk;
-	int flash_type;
+	struct camera_flash_cfg* flash_cfg;
+	int gpio_set_value_force; /*true: force to set gpio  */
+	int dev_node;
+	int camera_platform;
 	uint8_t led_high_enabled;
-	int need_suspend;
-	struct msm_camera_device_platform_data *pdata;
-	struct resource *resource;
-	uint8_t num_resources;
-	uint32_t waked_up;
-	wait_queue_head_t event_wait;
 	uint32_t kpi_sensor_start;
 	uint32_t kpi_sensor_end;
-	struct camera_flash_cfg* flash_cfg;
-	struct msm_camera_sensor_flash_data *flash_data;
-	int csi_if;
-	struct msm_camera_csi_params csi_params;
-	struct msm_camera_sensor_strobe_flash_data *strobe_flash_data;
-	int sensor_lc_disable; /* for sensor lens correction support */
 	uint8_t (*preview_skip_frame)(void);
-	int power_down_disable; /* if close power */
-	int full_size_preview; /* if use full-size preview */
-	int cam_select_pin; /* for two sensors */
-	int mirror_mode; /* for sensor upside down */
-	int zero_shutter_mode; /* for doing zero shutter lag on MIPI */
-	int dev_node;
+#endif
 };
 
+int  msm_get_cam_resources(struct msm_camera_sensor_info *);
 
 struct clk;
 
@@ -492,6 +612,7 @@ static inline void msm_hsusb_set_vbus_state(int online) {}
 
 int __init parse_tag_skuid(const struct tag *tags);
 int __init parse_tag_engineerid(const struct tag *tags);
+int __init parse_tag_cam(const struct tag *tag);
 int __init parse_tag_memsize(const struct tag *tags);
 int __init parse_tag_extdiag(const struct tag * tags);
 int board_build_flag(void);

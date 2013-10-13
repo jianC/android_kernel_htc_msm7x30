@@ -1,29 +1,13 @@
-/* Copyright (c) 2010-2011, Code Aurora Forum. All rights reserved.
+/* Copyright (c) 2010-2012, Code Aurora Forum. All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are
- * met:
- *     * Redistributions of source code must retain the above copyright
- *       notice, this list of conditions and the following disclaimer.
- *     * Redistributions in binary form must reproduce the above
- *       copyright notice, this list of conditions and the following
- *       disclaimer in the documentation and/or other materials provided
- *       with the distribution.
- *     * Neither the name of Code Aurora Forum, Inc. nor the names of its
- *       contributors may be used to endorse or promote products derived
- *       from this software without specific prior written permission.
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
  *
- * THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
- * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
- * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT
- * ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS
- * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
- * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
- * BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
- * OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
- * IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
  *
  */
 #ifndef _VCD_DRIVER_PROPERTY_H_
@@ -64,6 +48,8 @@
 #define VCD_I_DEC_PICTYPE (VCD_START_BASE + 0x20)
 #define VCD_I_CONT_ON_RECONFIG (VCD_START_BASE + 0x21)
 #define VCD_I_META_BUFFER_MODE (VCD_START_BASE + 0x22)
+#define VCD_I_DISABLE_DMX (VCD_START_BASE + 0x23)
+#define VCD_I_DISABLE_DMX_SUPPORT (VCD_START_BASE + 0x24)
 
 #define VCD_START_REQ      (VCD_START_BASE + 0x1000)
 #define VCD_I_REQ_IFRAME   (VCD_START_REQ + 0x1)
@@ -171,60 +157,60 @@ struct vcd_property_profile {
 };
 
 enum vcd_codec_level {
-   VCD_LEVEL_UNKNOWN       = 0x0,
-   VCD_LEVEL_MPEG4_0       = 0x1,
-   VCD_LEVEL_MPEG4_0b      = 0x2,
-   VCD_LEVEL_MPEG4_1       = 0x3,
-   VCD_LEVEL_MPEG4_2       = 0x4,
-   VCD_LEVEL_MPEG4_3       = 0x5,
-   VCD_LEVEL_MPEG4_3b      = 0x6,
-   VCD_LEVEL_MPEG4_4       = 0x7,
-   VCD_LEVEL_MPEG4_4a      = 0x8,
-   VCD_LEVEL_MPEG4_5       = 0x9,
-   VCD_LEVEL_MPEG4_6       = 0xA,
-   VCD_LEVEL_MPEG4_7       = 0xB,
-   VCD_LEVEL_MPEG4_X       = 0xC,
-   VCD_LEVEL_H264_1        = 0x10,
-   VCD_LEVEL_H264_1b       = 0x11,
-   VCD_LEVEL_H264_1p1      = 0x12,
-   VCD_LEVEL_H264_1p2      = 0x13,
-   VCD_LEVEL_H264_1p3      = 0x14,
-   VCD_LEVEL_H264_2        = 0x15,
-   VCD_LEVEL_H264_2p1      = 0x16,
-   VCD_LEVEL_H264_2p2      = 0x17,
-   VCD_LEVEL_H264_3        = 0x18,
-   VCD_LEVEL_H264_3p1      = 0x19,
-   VCD_LEVEL_H264_3p2      = 0x1A,
-   VCD_LEVEL_H264_4        = 0x1B,
-   VCD_LEVEL_H264_4p1      = 0x1C,
-   VCD_LEVEL_H264_4p2      = 0x1D,
-   VCD_LEVEL_H264_5        = 0x1E,
-   VCD_LEVEL_H264_5p1      = 0x1F,
-   VCD_LEVEL_H263_10       = 0x20,
-   VCD_LEVEL_H263_20       = 0x21,
-   VCD_LEVEL_H263_30       = 0x22,
-   VCD_LEVEL_H263_40       = 0x23,
-   VCD_LEVEL_H263_45       = 0x24,
-   VCD_LEVEL_H263_50       = 0x25,
-   VCD_LEVEL_H263_60       = 0x26,
-   VCD_LEVEL_H263_70       = 0x27,
-   VCD_LEVEL_H263_X        = 0x28,
-   VCD_LEVEL_MPEG2_LOW     = 0x30,
-   VCD_LEVEL_MPEG2_MAIN    = 0x31,
-   VCD_LEVEL_MPEG2_HIGH_14 = 0x32,
-   VCD_LEVEL_MPEG2_HIGH    = 0x33,
-   VCD_LEVEL_MPEG2_X       = 0x34,
-   VCD_LEVEL_VC1_S_LOW     = 0x40,
-   VCD_LEVEL_VC1_S_MEDIUM  = 0x41,
-   VCD_LEVEL_VC1_M_LOW     = 0x42,
-   VCD_LEVEL_VC1_M_MEDIUM  = 0x43,
-   VCD_LEVEL_VC1_M_HIGH    = 0x44,
-   VCD_LEVEL_VC1_A_0       = 0x45,
-   VCD_LEVEL_VC1_A_1       = 0x46,
-   VCD_LEVEL_VC1_A_2       = 0x47,
-   VCD_LEVEL_VC1_A_3       = 0x48,
-   VCD_LEVEL_VC1_A_4       = 0x49,
-   VCD_LEVEL_VC1_X         = 0x4A
+	VCD_LEVEL_UNKNOWN       = 0x0,
+	VCD_LEVEL_MPEG4_0       = 0x1,
+	VCD_LEVEL_MPEG4_0b      = 0x2,
+	VCD_LEVEL_MPEG4_1       = 0x3,
+	VCD_LEVEL_MPEG4_2       = 0x4,
+	VCD_LEVEL_MPEG4_3       = 0x5,
+	VCD_LEVEL_MPEG4_3b      = 0x6,
+	VCD_LEVEL_MPEG4_4       = 0x7,
+	VCD_LEVEL_MPEG4_4a      = 0x8,
+	VCD_LEVEL_MPEG4_5       = 0x9,
+	VCD_LEVEL_MPEG4_6       = 0xA,
+	VCD_LEVEL_MPEG4_7       = 0xB,
+	VCD_LEVEL_MPEG4_X       = 0xC,
+	VCD_LEVEL_H264_1        = 0x10,
+	VCD_LEVEL_H264_1b       = 0x11,
+	VCD_LEVEL_H264_1p1      = 0x12,
+	VCD_LEVEL_H264_1p2      = 0x13,
+	VCD_LEVEL_H264_1p3      = 0x14,
+	VCD_LEVEL_H264_2        = 0x15,
+	VCD_LEVEL_H264_2p1      = 0x16,
+	VCD_LEVEL_H264_2p2      = 0x17,
+	VCD_LEVEL_H264_3        = 0x18,
+	VCD_LEVEL_H264_3p1      = 0x19,
+	VCD_LEVEL_H264_3p2      = 0x1A,
+	VCD_LEVEL_H264_4        = 0x1B,
+	VCD_LEVEL_H264_4p1      = 0x1C,
+	VCD_LEVEL_H264_4p2      = 0x1D,
+	VCD_LEVEL_H264_5        = 0x1E,
+	VCD_LEVEL_H264_5p1      = 0x1F,
+	VCD_LEVEL_H263_10       = 0x20,
+	VCD_LEVEL_H263_20       = 0x21,
+	VCD_LEVEL_H263_30       = 0x22,
+	VCD_LEVEL_H263_40       = 0x23,
+	VCD_LEVEL_H263_45       = 0x24,
+	VCD_LEVEL_H263_50       = 0x25,
+	VCD_LEVEL_H263_60       = 0x26,
+	VCD_LEVEL_H263_70       = 0x27,
+	VCD_LEVEL_H263_X        = 0x28,
+	VCD_LEVEL_MPEG2_LOW     = 0x30,
+	VCD_LEVEL_MPEG2_MAIN    = 0x31,
+	VCD_LEVEL_MPEG2_HIGH_14 = 0x32,
+	VCD_LEVEL_MPEG2_HIGH    = 0x33,
+	VCD_LEVEL_MPEG2_X       = 0x34,
+	VCD_LEVEL_VC1_S_LOW     = 0x40,
+	VCD_LEVEL_VC1_S_MEDIUM  = 0x41,
+	VCD_LEVEL_VC1_M_LOW     = 0x42,
+	VCD_LEVEL_VC1_M_MEDIUM  = 0x43,
+	VCD_LEVEL_VC1_M_HIGH    = 0x44,
+	VCD_LEVEL_VC1_A_0       = 0x45,
+	VCD_LEVEL_VC1_A_1       = 0x46,
+	VCD_LEVEL_VC1_A_2       = 0x47,
+	VCD_LEVEL_VC1_A_3       = 0x48,
+	VCD_LEVEL_VC1_A_4       = 0x49,
+	VCD_LEVEL_VC1_X         = 0x4A
 };
 
 struct vcd_property_level {
@@ -314,11 +300,11 @@ struct vcd_property_req_i_frame {
 	u32        req_i_frame;
 };
 
-struct vcd_frame_rect{
-   u32   left;
-   u32   top;
-   u32   right;
-   u32   bottom;
+struct vcd_frame_rect {
+	u32   left;
+	u32   top;
+	u32   right;
+	u32   bottom;
 };
 
 struct vcd_property_dec_output_buffer {
@@ -327,29 +313,34 @@ struct vcd_property_dec_output_buffer {
 };
 
 enum vcd_output_order {
-   VCD_DEC_ORDER_DISPLAY  = 0x0,
-   VCD_DEC_ORDER_DECODE   = 0x1
+	VCD_DEC_ORDER_DISPLAY  = 0x0,
+	VCD_DEC_ORDER_DECODE   = 0x1
 };
 
-struct vcd_property_enc_recon_buffer{
+struct vcd_property_enc_recon_buffer {
+	u8 *user_virtual_addr;
 	u8 *kernel_virtual_addr;
 	u8 *physical_addr;
+	u8 *dev_addr;
 	u32 buffer_size;
 	u32 ysize;
 	int pmem_fd;
 	u32 offset;
+	void *client_data;
 };
 
-struct vcd_property_h264_mv_buffer{
+struct vcd_property_h264_mv_buffer {
 	u8 *kernel_virtual_addr;
 	u8 *physical_addr;
 	u32 size;
 	u32 count;
 	int pmem_fd;
 	u32 offset;
+	u8 *dev_addr;
+	void *client_data;
 };
 
-struct vcd_property_buffer_size{
+struct vcd_property_buffer_size {
 	int width;
 	int height;
 	int size;

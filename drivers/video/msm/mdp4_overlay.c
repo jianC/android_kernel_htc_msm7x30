@@ -1657,7 +1657,7 @@ static int mdp4_pull_mode(struct mdp4_overlay_pipe *pipe)
 	return lcdc;
 }
 
-#ifdef CONFIG_MACH_VISION
+#if defined(CONFIG_MACH_VISION) || defined(CONFIG_MACH_LEXIKON)
 /* Temporary workaround before QCT release formal fix. */
 int mdp4_overlay_alter_req(struct mdp_overlay *req)
 {
@@ -1693,7 +1693,7 @@ int mdp4_overlay_set(struct mdp_device *mdp_dev, struct fb_info *info, struct md
 	mdp4_dump_ov(req);
 #endif
 
-#ifdef CONFIG_MACH_VISION
+#if defined(CONFIG_MACH_VISION) || defined(CONFIG_MACH_LEXIKON)
 	mdp4_overlay_alter_req(req);
 #endif
 

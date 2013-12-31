@@ -1,4 +1,4 @@
-/* Copyright (c) 2010-2012, Code Aurora Forum. All rights reserved.
+/* Copyright (c) 2010-2011, Code Aurora Forum. All rights reserved.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -9,9 +9,14 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+ * 02110-1301, USA.
+ *
  */
 
-#include <media/msm/vidc_type.h>
+#include "vidc_type.h"
 #include "vcd.h"
 
 static const struct vcd_clnt_state_table *vcd_clnt_state_table[];
@@ -213,11 +218,11 @@ static u32 vcd_decode_frame_cmn
 	return vcd_handle_input_frame(cctxt, input_frame);
 }
 
-static u32 vcd_pause_cmn(struct vcd_clnt_ctxt *cctxt)
+static u32 vcd_pause_in_run(struct vcd_clnt_ctxt *cctxt)
 {
 	u32 rc = VCD_S_SUCCESS;
 
-	VCD_MSG_LOW("vcd_pause_cmn:");
+	VCD_MSG_LOW("vcd_pause_in_run:");
 
 	if (cctxt->sched_clnt_hdl) {
 		rc = vcd_sched_suspend_resume_clnt(cctxt, false);
@@ -342,6 +347,7 @@ static u32 vcd_flush_in_flushing
 static u32 vcd_flush_in_eos(struct vcd_clnt_ctxt *cctxt,
 	u32 mode)
 {
+	u32 rc = VCD_S_SUCCESS;
 	VCD_MSG_LOW("vcd_flush_in_eos:");
 
 	if (mode > VCD_FLUSH_ALL || !mode) {
@@ -351,10 +357,18 @@ static u32 vcd_flush_in_eos(struct vcd_clnt_ctxt *cctxt,
 	}
 
 	VCD_MSG_MED("Flush mode requested %d", mode);
+	if (!(cctxt->status.frame_submitted) &&
+		(!cctxt->decoding)) {
+		rc = vcd_flush_buffers(cctxt, mode);
+		if (!VCD_FAILED(rc)) {
+			VCD_MSG_HIGH("All buffers are flushed");
+			cctxt->status.mask |= (mode & VCD_FLUSH_ALL);
+			vcd_send_flush_done(cctxt, VCD_S_SUCCESS);
+		}
+	} else
+		cctxt->status.mask |= (mode & VCD_FLUSH_ALL);
 
-	cctxt->status.mask |= (mode & VCD_FLUSH_ALL);
-
-	return VCD_S_SUCCESS;
+	return rc;
 }
 
 static u32 vcd_flush_in_invalid(struct vcd_clnt_ctxt *cctxt,
@@ -704,24 +718,10 @@ static u32 vcd_fill_output_buffer_cmn
 	struct vcd_buffer_entry *buf_entry;
 	u32 result = true;
 	u32 handled = true;
-	if (!cctxt || !buffer) {
-		VCD_MSG_ERROR("%s(): Inavlid params cctxt %p buffer %p",
-					__func__, cctxt, buffer);
-		return VCD_ERR_BAD_POINTER;
-	}
+
 	VCD_MSG_LOW("vcd_fill_output_buffer_cmn in %d:",
 		    cctxt->clnt_state.state);
-	if (cctxt->status.mask & VCD_IN_RECONFIG) {
-		buffer->time_stamp = 0;
-		buffer->data_len = 0;
-		VCD_MSG_LOW("In reconfig: Return output buffer");
-		cctxt->callback(VCD_EVT_RESP_OUTPUT_DONE,
-			VCD_S_SUCCESS,
-			buffer,
-			sizeof(struct vcd_frame_data),
-			cctxt, cctxt->client_data);
-		return rc;
-	}
+
 	buf_entry = vcd_check_fill_output_buffer(cctxt, buffer);
 	if (!buf_entry)
 		return VCD_ERR_BAD_POINTER;
@@ -1571,9 +1571,6 @@ void vcd_do_client_state_transition(struct vcd_clnt_ctxt *cctxt,
 	if (!cctxt)
 		return;
 
-    	if (!cctxt)
-		return;
-
 	state_ctxt = &cctxt->clnt_state;
 
 	if (state_ctxt->state) {
@@ -1640,9 +1637,9 @@ static const struct vcd_clnt_state_table vcd_clnt_table_starting = {
 	 NULL,
 	 NULL,
 	 NULL,
-	 vcd_get_property_cmn,
 	 NULL,
-	 vcd_get_buffer_requirements_cmn,
+	 NULL,
+	 NULL,
 	 NULL,
 	 NULL,
 	 NULL,
@@ -1660,7 +1657,7 @@ static const struct vcd_clnt_state_table vcd_clnt_table_run = {
 	 vcd_encode_frame_cmn,
 	 vcd_decode_start_in_run,
 	 vcd_decode_frame_cmn,
-	 vcd_pause_cmn,
+	 vcd_pause_in_run,
 	 NULL,
 	 vcd_flush_cmn,
 	 vcd_stop_in_run,
@@ -1689,10 +1686,10 @@ static const struct vcd_clnt_state_table vcd_clnt_table_flushing = {
 	 NULL,
 	 vcd_flush_in_flushing,
 	 NULL,
-	 vcd_set_property_cmn,
-	 vcd_get_property_cmn,
 	 NULL,
-	 vcd_get_buffer_requirements_cmn,
+	 NULL,
+	 NULL,
+	 NULL,
 	 NULL,
 	 NULL,
 	 NULL,
@@ -1735,7 +1732,7 @@ static const struct vcd_clnt_state_table vcd_clnt_table_eos = {
 	 vcd_encode_frame_cmn,
 	 NULL,
 	 vcd_decode_frame_cmn,
-	 vcd_pause_cmn,
+	 NULL,
 	 NULL,
 	 vcd_flush_in_eos,
 	 vcd_stop_in_eos,

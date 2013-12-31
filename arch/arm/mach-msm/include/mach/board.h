@@ -519,16 +519,6 @@ struct msm_i2c_platform_data {
 	void (*msm_i2c_config_gpio)(int iface, int config_type);
 };
 
-struct msm_vidc_platform_data {
-	int memtype;
-	u32 enable_ion;
-	int disable_dmx;
-	int disable_fullhd;
-#ifdef CONFIG_MSM_BUS_SCALING
-	struct msm_bus_scale_pdata *vidc_bus_client_pdata;
-#endif
-};
-
 /* common init routines for use by arch/arm/mach-msm/board-*.c */
 void __init msm_add_devices(void);
 void __init msm_map_common_io(void);
